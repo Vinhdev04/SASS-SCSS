@@ -1,0 +1,18 @@
+$color-first: rgb(37 99 235);
+$primary-color: #6b7280;
+$secondary-color: #374151;
+$background-color: #2563eb;
+
+@mixin border-radius($value) {
+  -webkit-border-radius: $value;
+  -moz-border-radius: $value;
+  border-radius: $value;
+}
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,338 @@
+// @import -> kết hợp file scss
+// cú pháp: __tenfile.scss -> nếu đặt "__" ko được biên dịch ra folder css
+
+@import "./_mixin.scss";
+
+// # @mixin tương tự @extend -> style "động" truyền được đối số vào
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@mixin border-radius($value) {
+  -webkit-border-radius: $value;
+  -moz-border-radius: $value;
+  border-radius: $value;
+}
+
+body {
+  // display: -webkit-box;
+  // display: -webkit-flex;
+  // display: -ms-flexbox;
+  // display: flex;
+  @include flexbox;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vmin;
+  flex-flow: column;
+}
+
+%btn {
+  color: #000;
+  // border-radius: 20px;
+  @include border-radius(20px);
+  padding: 10px 30px;
+  border: none;
+  outline: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+// #  @extend -> kế thừa, dùng cho style "tĩnh"
+.btn--red {
+  // # @extend -> kế thừa
+  @extend %btn;
+  background-color: red;
+  color: #fff;
+}
+
+.btn--blue {
+  @extend %btn;
+  background-color: blue;
+  color: #fff;
+}
+
+.btn--green {
+  @extend %btn;
+  background-color: green;
+  color: #fff;
+}
+
+.btn--yellow {
+  @extend %btn;
+  background-color: yellow;
+  color: #000;
+}
+
+// # placeholder -> bỏ đi phần ko cần thiết trước khi biên dịch
+%btn {
+  color: #000;
+  // border-radius: 20px;
+  @include border-radius(20px);
+  padding: 10px 30px;
+  border: none;
+  outline: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn--red {
+  // # @extend -> kế thừa
+  @extend %btn;
+  background-color: red;
+  color: #fff;
+}
+
+.btn--blue {
+  @extend %btn;
+  background-color: blue;
+  color: #fff;
+}
+
+.btn--green {
+  @extend %btn;
+  background-color: green;
+  color: #fff;
+}
+
+.btn--yellow {
+  @extend %btn;
+  background-color: yellow;
+  color: #000;
+}
+
+// # $name: value -> khai báo biến
+$color: #000;
+$background: orange;
+$font-weight: bold;
+
+.btn--green {
+  @extend %btn;
+  background-color: $background;
+  color: $color;
+  font-weight: $font-weight;
+}
+
+// Nesting -> cách viết phân cấp
+
+.nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  // display: -webkit-box;
+  // display: -webkit-flex;
+  // display: -ms-flexbox;
+  // display: flex;
+  @include flexbox;
+  margin-top: 20px;
+
+  &__item {
+    margin: 0 15px;
+    color: #000;
+    font-size: 18px;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: #000;
+
+    &--active {
+      color: blue;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    &--disabled {
+      color: gray;
+      cursor: no-drop;
+    }
+
+    &:hover {
+      color: brown;
+    }
+  }
+}
+
+.pagination {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  // display: -webkit-box;
+  // display: -webkit-flex;
+  // display: -ms-flexbox;
+  // display: flex;
+  @include flexbox;
+  margin-top: 20px;
+
+  &__item {
+    margin: 0 5px;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: #000;
+  }
+
+  &__item--active &__link {
+    color: red;
+    font-weight: bold;
+  }
+
+  &__item--disabled &__link {
+    color: gray;
+    cursor: no-drop;
+  }
+}
+
+// # @if @else
+@mixin check-position($position, $x, $y) {
+  position: absolute;
+  @if ($position == "top-left") {
+    top: $x;
+    left: $y;
+  } @else if($position == "top-right") {
+    top: $x;
+    right: $y;
+  } @else if($position == "bottom-left") {
+    bottom: $x;
+    left: $y;
+  } @else if($position == "bottom-right") {
+    bottom: $x;
+    right: $y;
+  } @else {
+  }
+}
+
+.box {
+  position: relative;
+  background-color: cadetblue;
+  width: 100%;
+  height: 400px;
+  @include border-radius(10px);
+  margin-top: 50px;
+
+  &__item {
+    background-color: yellow;
+    width: 100px;
+    height: 50px;
+    @include border-radius(10px);
+    color: $color;
+    text-align: center;
+
+    &--one {
+      @include check-position("top-left", 10px, 10px);
+      // position: absolute;
+      // top: 10px;
+      // left: 10px;
+      @include border-radius(10px);
+      color: $color;
+      text-align: center;
+    }
+
+    &--two {
+      @include check-position("top-right", 10px, 10px);
+      // position: absolute;
+      // top: 10px;
+      // right: 10px;
+    }
+
+    &--three {
+      @include check-position("bottom-left", 20px, 20px);
+      // position: absolute;
+      // bottom: 20px;
+      // left: 20px;
+      @include border-radius(10px);
+      color: $color;
+      text-align: center;
+    }
+
+    &--four {
+      @include check-position("bottom-right", 20px, 20px);
+      // position: absolute;
+      // bottom: 20px;
+      // right: 20px;
+      @include border-radius(10px);
+      color: $color;
+      text-align: center;
+    }
+  }
+}
+
+// # @for
+$size: 10;
+@for $i from 0 through $size {
+  .opacity-#{$i} {
+    opacity: 0.1 * $i;
+  }
+}
+
+$margin: 10px;
+@for $i from 0 through $margin {
+  .margin-#{$i} {
+    margin: 1px * $i;
+  }
+}
+
+// # operator
+.modal {
+  margin-top: 20px;
+  background-color: blueviolet;
+  padding: 20px;
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  width: calc(50px / 50);
+  width: calc(50px / 50);
+  // width: 100px - 100px;
+  width: (10px * 10);
+  width: 100px + 100px;
+  height: 100px % 100px;
+  height: (10px * 10);
+}
+
+// # @while
+$i: 0;
+$length: 100;
+@while ($i <= $length) {
+  .pb-#{$i} {
+    padding-bottom: $i + px;
+  }
+  $i: $i + 5;
+}
+
+// @each -> lặp list(tương tự mảng trong js)
+
+$sizes: 40px, 50px, 80px;
+@each $size in $sizes {
+  .item-#{$size} {
+    font-size: $size;
+    height: $size;
+    width: $size;
+  }
+}
+
+// ưu tiên dùng object
+$color: ("blue", "#4a4afa", "#fff"), ("red", "#e15b5b", "#000"),
+  ("orange", "#f0af38", "#222");
+@each $color, $rgba, $colorText in $color {
+  .item-#{$color} {
+    background: $rgba;
+    color: $colorText;
+  }
+}
+
+// # @function -> trả về giá trị, luôn có @return
+@function getSum($a, $b, $c) {
+  $d: $a + $b + $c;
+  @return $d;
+}
+
+#result {
+  width: getSum(10px, 20px, 30px);
+  height: getSum(10px, 20px, 30px);
+  color: #000;
+  background-color: blue;
+  margin-top: 30px;
+}
